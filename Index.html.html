@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة السعر</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f1ea;color:#1d2b26;font-family:Tahoma,Arial,sans-serif;display:flex;justify-content:center;padding:24px 16px}
+.box{width:100%;max-width:420px}
+h1{font-size:22px;margin:0 0 16px}
+input{width:100%;border:2px solid #cfd8d3;border-radius:12px;padding:14px;font-size:28px;font-weight:bold;direction:ltr;text-align:center;background:#fff;color:#1d2b26}
+input:focus{outline:none;border-color:#0f6b4f}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs button{flex:1;padding:10px 6px;border:2px solid #cfd8d3;border-radius:10px;background:#fff;font:inherit;font-size:14px;color:#1d2b26}
+.tabs button.on{border-color:#0f6b4f;background:#0f6b4f;color:#fff}
+.out{background:#0f6b4f;color:#fff;border-radius:14px;padding:16px;text-align:center}
+.out .f{font-size:38px;font-weight:bold;direction:ltr}
+.out .d{margin-top:4px;font-size:18px}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>حاسبة السعر</h1>
+<input id="p" type="text" inputmode="numeric" placeholder="اكتب السعر" autocomplete="off">
+<div class="tabs">
+<button id="a" class="on">كل 100 ألف +10 آلاف</button>
+<button id="b">المئات الكاملة فقط</button>
+</div>
+<div class="out">
+<div>السعر النهائي</div>
+<div class="f" id="f">0</div>
+<div class="d" id="d">الزيادة: 0</div>
+</div>
+</div>
+<script>
+var p=document.getElementById('p'),a=document.getElementById('a'),b=document.getElementById('b'),m=1;
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+function num(s){return parseInt(String(s).replace(/[^0-9]/g,''),10)||0}
+function calc(){
+var v=num(p.value),h=v/100000,e=m===1?h*10000:Math.floor(h)*10000;
+document.getElementById('f').textContent=fmt(v+e);
+document.getElementById('d').textContent='الزيادة: '+fmt(e);
+}
+p.oninput=function(){var n=num(p.value);p.value=n?n.toLocaleString('en-US'):'';calc()};
+a.onclick=function(){m=1;a.className='on';b.className='';calc()};
+b.onclick=function(){m=2;b.className='on';a.className='';calc()};
+calc();
+</script>
+</body>
+</html>
